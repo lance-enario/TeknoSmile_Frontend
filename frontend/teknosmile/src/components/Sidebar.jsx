@@ -65,7 +65,7 @@ const Sidebar = () => {
         >
           <CalendarTodayOutlined /> <span>CALENDAR</span>
         </a>
-        <a href="#" className={styles.navItem}
+        <a href="#"
           className={`${styles.navItem} ${isActive('/appointments') ? styles.active : ''}`}
           onClick={(e) => { e.preventDefault(); navigate('/appointments'); }}
         >

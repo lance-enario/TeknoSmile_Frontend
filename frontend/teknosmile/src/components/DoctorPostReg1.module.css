@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Main Page Wrapper - Replaces global body styles */
+.doctorPostRegPage {
+  /* Scope variables locally */
+  --primary-blue: #2196F3;
+  --border-blue: #90CAF9; 
+  --btn-bg: #E0F4FB;      
+  --btn-hover: #CBEFF9;
+  --text-main: #000000;
+  --page-bg: #E1F8FF;     
+  --white: #ffffff;
+
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--page-bg); 
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  background-color: var(--white);
+  padding: 4rem;
+  margin: 2rem auto;
+  border-radius: 8px; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  color: var(--text-main);
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  color: var(--text-main);
+}
+
+/* --- Profile Section --- */
+.profileContainer {
+  display: flex;
+  gap: 4rem;
+  margin-bottom: 2rem;
+}
+
+.profileLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  min-width: 150px;
+}
+
+.profileCircle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 1px solid var(--border-blue); 
+  background-color: #fff;
+}
+
+.btnEditPhoto {
+  background-color: var(--btn-bg);
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 20px; 
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #000;
+  transition: background 0.2s;
+}
+
+.btnEditPhoto:hover {
+  background-color: var(--btn-hover);
+}
+
+.profileRight {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2rem;
+  row-gap: 1.5rem;
+}
+
+/* --- Form Elements --- */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.label {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-main);
+  font-weight: 400;
+}
+
+.customInput {
+  padding: 12px 16px;
+  border: 1px solid var(--border-blue);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  background-color: #fff;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--text-main);
+}
+
+.customInput:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 1px var(--primary-blue);
+}
+
+.inputWithIcon {
+  position: relative;
+  width: 100%;
+}
+
+.inputIconBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #000;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+}
+
+/* Target the calendar picker inside the custom input */
+.customInput::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+  z-index: 1;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background-color: #000;
+  opacity: 0.8;
+  margin: 2.5rem 0;
+  width: 100%;
+}
+
+/* Address Grid */
+.addressGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2rem;
+  row-gap: 1.5rem;
+}
+
+/* Footer */
+.actionFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 3rem;
+}
+
+.btnNext {
+  background-color: var(--btn-bg);
+  border: none;
+  padding: 0.8rem 3.5rem; /* Wide button */
+  border-radius: 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #000;
+  transition: background 0.2s;
+}
+
+.btnNext:hover {
+  background-color: var(--btn-hover);
+}
+
+@media (max-width: 900px) {
+  .profileContainer { flex-direction: column; align-items: center; }
+  .profileRight, .addressGrid { grid-template-columns: 1fr; width: 100%; }
+  .container { padding: 2rem; margin: 1rem; width: auto; }
+}

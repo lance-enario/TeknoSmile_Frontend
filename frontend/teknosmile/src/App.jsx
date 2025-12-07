@@ -10,7 +10,11 @@ import CalendarPage from './components/CalendarPage'
 import PostRegisterPage from './components/PostRegister'
 import SettingsPage from './components/SettingsPage'
 import DoctorProfile from './components/DoctorProfile'
+import DoctorPostRegisterPage from './components/DoctorPostReg1'
+import DoctorClinicInfoPage from './components/DoctorPostReg2'
+import DoctorAvailabilityPage from './components/DoctorPostReg3'
 import AppointmentsPage from './components/Appointment';
+
 import './App.css'
 
 export default function App() {
@@ -25,6 +29,9 @@ export default function App() {
         <Route path="/doctor-profile" element={<DoctorProfile />} />
         <Route path="/message" element={<MessagePage />} />
         <Route path="/post-register" element={<PostRegisterPage />} />
+        <Route path="/doctor-post-register" element={<DoctorPostRegisterPage />} />
+        <Route path="/doctor-clinic-info" element={<DoctorClinicInfoPage />} />
+        <Route path="/doctor-availability" element={<DoctorAvailabilityPage />} />
         <Route path="/book-appointment" element={<BookingPage />} />
         <Route path="/appointments" element={<AppointmentsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
