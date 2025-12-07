@@ -16,6 +16,7 @@ import DoctorAvailabilityPage from './components/DoctorPostReg3'
 import AppointmentsPage from './components/Appointment';
 
 import './App.css'
+import DoctorAppointmentsPage from './components/DoctorAppointment';
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/doctor-post-register" element={<DoctorPostRegisterPage />} />
         <Route path="/doctor-clinic-info" element={<DoctorClinicInfoPage />} />
         <Route path="/doctor-availability" element={<DoctorAvailabilityPage />} />
+        <Route path="/doctor-appointments" element={<DoctorAppointmentsPage />} />
         <Route path="/book-appointment" element={<BookingPage />} />
         <Route path="/appointments" element={<AppointmentsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
