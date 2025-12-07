@@ -7,7 +7,8 @@ import {
   ChatBubbleOutline,
   CalendarTodayOutlined,
   SmartphoneOutlined,
-  MedicalServices
+  MedicalServices,
+  PeopleOutline
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Sidebar.module.css'; // Changed import
@@ -15,6 +16,8 @@ import styles from './Sidebar.module.css'; // Changed import
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const isDentist = user.userType === 'doctor';
 
   const isActive = (path) => location.pathname === path;
 
@@ -71,6 +74,14 @@ const Sidebar = () => {
         >
           <SmartphoneOutlined /> <span>APPOINTMENTS</span>
         </a>
+        {isDentist && (
+          <a href="#"
+            className={`${styles.navItem} ${isActive('/patients') ? styles.active : ''}`}
+            onClick={(e) => { e.preventDefault(); navigate('/patients'); }}
+          >
+            <PeopleOutline /> <span>PATIENTS</span>
+          </a>
+        )}
       </nav>
 
       <div className={styles.sidebarFooter}>
