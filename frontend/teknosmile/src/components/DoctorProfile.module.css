@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Main Wrapper - Replaces body/global styles */
+.doctorProfileWrapper {
+  /* Scope variables locally */
+  --bg-light: #e6f9ff; 
+  --bg-page: #e6f9ff;
+  --white: #ffffff;
+  --text-main: #1a1a1a;
+  --text-gray: #666666;
+  --border-color: #e0e0e0;
+  --primary-blue: #007bff;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-page);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+}
+
+.pageLayout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* --- MAIN CONTENT AREA --- */
+.mainContent {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: var(--bg-light);
+  overflow-y: auto;
+}
+
+.profileCard {
+  background-color: var(--white);
+  width: 100%;
+  max-width: 900px;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Profile Header */
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.avatarLarge {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  background-color: var(--bg-light);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.headerInfo h2 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0;
+  color: var(--text-gray);
+}
+
+.headerInfo h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-main);
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background-color: var(--border-color);
+  width: 100%;
+  margin-bottom: 2.5rem;
+}
+
+/* Info Sections Grid */
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2rem;
+  row-gap: 2.5rem;
+}
+
+.infoSection h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-main);
+}
+
+.infoContent {
+  font-size: 1.1rem;
+  color: var(--text-main);
+  padding-left: 1rem;
+}
+
+/* Lists */
+.infoList {
+  list-style-type: disc;
+  padding-left: 2rem;
+  margin: 0;
+}
+
+.infoList li {
+  margin-bottom: 0.25rem;
+}
+
+/* Specific Utilities replacing inline styles */
+.numberSection {
+  margin-top: 2.5rem;
+}
+
+.servicesSection {
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+}
+
+@media (max-width: 900px) {
+  .doctorProfileWrapper {
+    height: auto;
+    overflow-y: auto;
+  }
+  .pageLayout { 
+    flex-direction: column; 
+    height: auto;
+  }
+  .mainContent {
+    padding: 1.5rem;
+  }
+  .infoGrid { 
+    grid-template-columns: 1fr; 
+  }
+  .profileHeader { 
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+}

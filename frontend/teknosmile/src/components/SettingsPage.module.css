@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.settingsContainer {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #e6f9ff; /* Light blue background */
+  font-family: 'Poppins', sans-serif;
+  color: #1a1a1a;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 3rem 4rem;
+  overflow-y: auto;
+  background-color: #ffffff; /* White background for the content area as per wireframe look */
+  margin: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 1rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.tab {
+  padding: 0.75rem 2rem;
+  border-radius: 20px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #f0f2f5;
+  color: #666;
+}
+
+.tab.active {
+  background-color: #b3e5fc; /* Light blue active state */
+  color: #000;
+}
+
+.contentArea {
+  max-width: 800px;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.profileGrid {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+.photoArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.photoPlaceholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid #007bff; /* Blue border */
+  background-color: #fff;
+}
+
+.editPhotoBtn {
+  background-color: #e1f5fe;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.profileInputs {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #b3e5fc; /* Light blue border */
+  border-radius: 12px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: #007bff;
+}
+
+.divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 3rem 0;
+}
+
+.addressGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.privacyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.confirmBtn {
+  background-color: #e1f5fe;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: #1a1a1a;
+  transition: background-color 0.2s;
+}
+
+.confirmBtn:hover {
+  background-color: #b3e5fc;
+}
+
+@media (max-width: 768px) {
+  .settingsContainer {
+    flex-direction: column;
+  }
+  
+  .mainContent {
+    margin: 0;
+    border-radius: 0;
+    padding: 2rem;
+  }
+
+  .profileGrid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profileInputs {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .addressGrid {
+    grid-template-columns: 1fr;
+  }
+}

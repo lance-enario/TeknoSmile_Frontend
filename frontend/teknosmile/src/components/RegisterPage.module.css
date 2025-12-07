@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+.registerPageWrapper {
+  --primary-blue: #007bff;
+  --bg-blue-light: #e6f9ff;
+  --text-secondary: #666666;
+  --white: #ffffff;
+  --text-main: #1a1a1a;
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--bg-blue-light);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+.logo {
+  position: absolute;
+  top: 2.5rem;
+  left: 3rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logoIcon {
+  font-size: 2rem !important;
+}
+
+/* Container for the form elements */
+.signupContainer {
+  width: 100%;
+  max-width: 450px;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0;
+  background-color: var(--white);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+}
+
+.signupHeader {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.signupHeader h2 {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #4B5563; /* Dark gray */
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Button Base Styles */
+.btn {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.btnRegister {
+  background-color: var(--bg-blue-light);
+  color: var(--primary-blue);
+  margin-top: 1rem;
+  padding: 0.85rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.btnRegister:hover {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+/* Google Button */
+.btnGoogle {
+  background-color: var(--white);
+  border: 1px solid var(--google-border);
+  color: #5F6368;
+}
+
+.btnGoogle:hover {
+  background-color: #F8F9FA;
+}
+
+/* Doctor Link */
+.doctorLink {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4B5563;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.doctorLink:hover {
+  text-decoration: underline;
+}
+
+/* Form Styles */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Helper class for Input text color if needed, 
+   though currently handled by MUI sx prop */
+.inputText {
+  font-family: 'Poppins', sans-serif;
+}

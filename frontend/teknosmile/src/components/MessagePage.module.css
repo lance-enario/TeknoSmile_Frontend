@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Main Layout Container */
+.pageLayout {
+  /* Scope variables locally */
+  --primary-blue: #007bff;
+  --bg-light: #e6f9ff; 
+  --bg-selected: #cbf0ff;
+  --white: #ffffff;
+  --text-main: #1a1a1a;
+  --border-color: #e0e0e0;
+
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-light);
+  overflow: hidden;
+  margin: 0;
+}
+
+/* Main Content Area */
+.mainContent {
+  flex: 1;
+  display: flex;
+  padding: 2rem;
+  gap: 1.5rem;
+  background-color: var(--bg-light);
+}
+
+/* Middle Panel: Chat List */
+.chatListPanel {
+  width: 300px;
+  background-color: var(--white);
+  border-radius: 12px;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  overflow-y: auto;
+}
+
+.chatItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s;
+  color: var(--text-main);
+}
+
+.chatItem:hover, 
+.chatItem.selected {
+  background-color: var(--bg-light);
+}
+
+/* Helper class for selected state logic in JS */
+.selected {
+  background-color: var(--bg-light);
+}
+
+.avatarCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #333;
+}
+
+.avatarCircle.small {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+/* Helper for small avatar */
+.small {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.contactName {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* Right Panel: Chat Window */
+.chatWindowPanel {
+  flex: 1;
+  background-color: var(--white);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.chatHeader {
+  padding: 1rem 1.5rem;
+  border-bottom: 4px solid var(--bg-light);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-main);
+}
+
+.headerName {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.messagesContainer {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  overflow-y: auto;
+}
+
+.messageGroup {
+  display: flex;
+  gap: 1rem;
+  max-width: 80%;
+}
+
+.outgoing {
+  align-self: flex-end;
+  flex-direction: row; 
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.outgoing .messageContent {
+  align-items: flex-end;
+}
+
+.messageContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.senderName {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.messageBubble {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* Input Area */
+.chatInputArea {
+  padding: 1rem 1.5rem;
+  background-color: #F0F9FF;
+  border-top: 4px solid #fff;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem;
+  border-radius: 8px;
+}
+
+.addBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #333;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+}
+
+.messageInput {
+  flex: 1;
+  border: none;
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .pageLayout { flex-direction: column; }
+  .mainContent { padding: 1rem; }
+  .chatListPanel { width: 80px; }
+  .contactName { display: none; }
+}

@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Main Container */
+.dashboardContainer {
+  /* Define variables locally within the module scope */
+  --primary-blue: #007bff;
+  --primary-dark: #0056b3;
+  --bg-blue-light: #e6f9ff;
+  --bg-blue-gradient: linear-gradient(135deg, #e6f9ff 0%, #cbf0ff 100%);
+  --text-main: #1a1a1a;
+  --text-secondary: #666666;
+  --white: #ffffff;
+  --sidebar-bg: #ffffff;
+  --border-color: #e0e0e0;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg-blue-light);
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-main);
+  width: 100%;
+}
+
+/* Main Content Area */
+.mainContent {
+  flex: 1;
+  padding: 2.5rem;
+  overflow-y: auto;
+}
+
+/* Top Bar */
+.topBar {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.searchContainer, 
+.locationContainer {
+  background-color: var(--white);
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.searchContainer:focus-within, 
+.locationContainer:focus-within {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.searchContainer {
+  flex: 2;
+}
+
+.locationContainer {
+  flex: 1;
+}
+
+.searchInput, 
+.locationInput {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text-main);
+}
+
+.searchInput::placeholder, 
+.locationInput::placeholder {
+  color: #999;
+}
+
+.filterBtn {
+  background-color: var(--white);
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+  color: var(--text-main);
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.filterBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.filterCount {
+  background-color: var(--bg-blue-light);
+  color: var(--primary-blue);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Active Filters */
+.activeFilters {
+  margin-bottom: 2.5rem;
+}
+
+.filterTag {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+}
+
+.closeIcon {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.closeIcon:hover {
+  opacity: 1;
+}
+
+/* Dentists Grid */
+.dentistsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+  gap: 2rem;
+}
+
+.dentistCard {
+  background-color: var(--white);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.dentistCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(0, 123, 255, 0.1);
+}
+
+.cardContent {
+  flex: 1;
+}
+
+.dentistHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.dentistAvatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--bg-blue-light);
+  color: var(--primary-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--white);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.dentistHeader h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.infoSection {
+  margin-bottom: 1rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.infoSection ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.infoSection ul li {
+  margin-bottom: 0.25rem;
+  position: relative;
+  padding-left: 12px;
+}
+
+.infoSection ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary-blue);
+  font-weight: bold;
+}
+
+.cardActions {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.placeholderImage {
+  background-color: #f0f2f5;
+  height: 140px;
+  border-radius: 12px;
+  width: 100%;
+  border: 2px dashed #e0e0e0;
+}
+
+.bookBtn {
+  background-color: var(--bg-blue-light);
+  color: var(--primary-blue);
+  border: none;
+  padding: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.bookBtn:hover {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+@media (max-width: 900px) {
+  .dashboardContainer {
+    flex-direction: column;
+  }
+  
+  /* Removed Sidebar Specific styles as Sidebar component handles its own responsive width */
+
+  .dentistCard {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .cardActions {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .placeholderImage {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+  }
+}

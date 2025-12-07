@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Main Wrapper - Replaces body/global styles */
+.appointmentsPageWrapper {
+  /* Scope variables locally */
+  --bg-light: #e6f9ff; 
+  --bg-page: #e6f9ff;
+  --white: #ffffff;
+  --text-main: #1a1a1a;
+  --primary-blue: #007bff;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-page);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+}
+
+.pageLayout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* --- MAIN CONTENT AREA --- */
+.mainContent {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-page);
+  overflow-y: auto;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 2rem;
+}
+
+/* Appointment Card Styles */
+.appointmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.appointmentCard {
+  background-color: var(--white);
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.appointmentCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Left Side: Avatar + Name */
+.cardLeft {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.cardAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-light);
+  color: var(--primary-blue);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.doctorName {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--text-main);
+}
+
+/* Middle: Service */
+.cardMiddle {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Center alignment based on image layout */
+}
+
+.serviceText {
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+/* Right: Date & Time */
+.cardRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align to right */
+  gap: 0.25rem;
+}
+
+.dateText {
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.timeText {
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+@media (max-width: 1024px) {
+  .appointmentsPageWrapper {
+    height: auto;
+    overflow-y: auto;
+  }
+  
+  .pageLayout { 
+    flex-direction: column; 
+    height: auto;
+  }
+
+  .appointmentCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .cardMiddle, 
+  .cardRight {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}

@@ -1,0 +1,133 @@
+/* Sidebar.module.css */
+
+.sidebar {
+  /* Define local variables since they aren't global */
+  --sidebar-bg: #ffffff;
+  --border-color: #e0e0e0;
+  --primary-blue: #007bff;
+  --bg-blue-light: #e6f9ff;
+  --bg-blue-gradient: linear-gradient(135deg, #e6f9ff 0%, #cbf0ff 100%);
+  --text-main: #1a1a1a;
+  --text-secondary: #666666;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+
+  width: 280px;
+  background-color: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-right: 1px solid var(--border-color);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.sidebarHeader {
+  margin-top: 4rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 5rem;
+}
+
+.logoIcon {
+  font-size: 2rem !important;
+}
+
+.userActions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.iconBtn {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.iconBtn:hover {
+  background-color: var(--bg-blue-light);
+  color: var(--primary-blue);
+  border-color: var(--primary-blue);
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.navItem:hover, 
+.navItem.active {
+  background-color: var(--bg-blue-light);
+  color: var(--primary-blue);
+}
+
+/* This targets the 'active' class specifically when using modules */
+.active {
+  background-color: var(--bg-blue-light);
+  color: var(--primary-blue);
+}
+
+.sidebarFooter {
+  margin-top: auto;
+}
+
+.notificationArea {
+  background: var(--bg-blue-gradient);
+  padding: 1.25rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 120px;
+  align-items: flex-start;
+  color: var(--text-main);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem;
+  }
+
+  .sidebarHeader {
+    margin-bottom: 1.5rem;
+  }
+}
