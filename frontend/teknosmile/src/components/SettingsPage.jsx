@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import styles from './SettingsPage.module.css';
+import api from '../api/axios';
 
 const SettingsPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(location.state?.tab || 'account');;
 
   useEffect(() => {
@@ -13,14 +15,33 @@ const SettingsPage = () => {
     }
   }, [location.state]);
 
+  const handleLogout = async () => {
+    try {
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (refreshToken) {
+        await api.post('/auth/logout', { refreshToken });
+      }
+    } catch (error) {
+      console.error("Logout failed", error);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+      navigate('/login');
+    }
+  };
+
   return (
     <div className={styles.settingsContainer}>
       <Sidebar />
       
       <main className={styles.mainContent}>
         <div className={styles.header}>
-          <h1 className={styles.title}>Settings</h1>
-          <p className={styles.subtitle}>Manage your account settings</p>
+          <div>
+            <h1 className={styles.title}>Settings</h1>
+            <p className={styles.subtitle}>Manage your account settings</p>
+          </div>
+          <button className={styles.logoutBtn} onClick={handleLogout}>Log Out</button>
         </div>
 
         <div className={styles.tabs}>

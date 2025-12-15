@@ -16,6 +16,7 @@ import api from '../api/axios';
 import {useNavigate} from 'react-router-dom';
 
 export default function LogInPage() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,10 +29,11 @@ export default function LogInPage() {
         password: password
       });
     
-      const {token, user} = response.data;
+      const { accessToken, refreshToken, userId, role } = response.data;
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('user', JSON.stringify({ userId, role }));
 
       navigate('/dashboard');
     } catch (error) {

@@ -13,11 +13,16 @@ import {
   IconButton, 
   Divider 
 } from '@mui/material';
+import api from '../api/axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -26,17 +31,32 @@ export default function RegisterPage() {
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:5173/api/auth/register" , {
-        method: "POST",
-        headers: {"Content-Type" : "application/json"},
-        body: JSON.stringify()
-      })
-    } catch (error){
-
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
     }
 
-    console.log('Registering...', { email, password, confirmPassword, userType });
+    try {
+      const role = userType === 'patient' ? 'PATIENT' : 'DENTIST';
+      const response = await api.post('/auth/register', {
+        firstName,
+        lastName,
+        email,
+        password,
+        role
+      });
+      
+      const { accessToken, refreshToken, userId, role: userRole } = response.data;
+      
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('user', JSON.stringify({ userId, role: userRole }));
+      
+      navigate('/dashboard');
+    } catch (error) {
+      console.error("Registration failed", error);
+      alert("Registration failed. Please try again.");
+    }
   };
 
   const toggleUserType = () => {
@@ -89,6 +109,25 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSignup} className={styles.form}>
             
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <TextField
+                fullWidth
+                placeholder="First Name"
+                variant="outlined"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                sx={textFieldSx}
+              />
+              <TextField
+                fullWidth
+                placeholder="Last Name"
+                variant="outlined"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                sx={textFieldSx}
+              />
+            </div>
+
             {/* Email */}
             <TextField
               fullWidth

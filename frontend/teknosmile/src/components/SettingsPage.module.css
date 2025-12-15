@@ -21,6 +21,28 @@
 
 .header {
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.logoutBtn {
+  padding: 0.6rem 1.5rem;
+  background-color: #fff1f0;
+  color: #ff4d4f;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.logoutBtn:hover {
+  background-color: #ff4d4f;
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 77, 79, 0.2);
+  transform: translateY(-1px);
 }
 
 .title {

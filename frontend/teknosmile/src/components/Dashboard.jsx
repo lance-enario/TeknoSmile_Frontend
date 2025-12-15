@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Search,
   LocationOnOutlined,
@@ -8,53 +8,40 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import styles from './Dashboard.module.css'; // Changed import
+import styles from './Dashboard.module.css';
+import api from '../api/axios';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  // Mock data for dentists
-  const dentists = [
-    {
-      id: 1,
-      name: "Dr. Lorem Ipsum",
-      location: "Lorem Ipsum",
-      services: ["Lorem Ipsum", "Lorem Ipsum", "Lorem Ipsum"],
-      schedule: {
-        weekdays: "10:00A.M - 5:00P.M Monday-Friday",
-        weekend: "1:00P.M - 5:00P.M Saturday - Sunday"
+  const [dentists, setDentists] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchDentists = async () => {
+      try {
+        const response = await api.get('/dentists');
+        const mappedDentists = response.data.map(dentist => ({
+          id: dentist.userId,
+          name: `Dr. ${dentist.profile?.firstName || ''} ${dentist.profile?.lastName || ''}`,
+          location: dentist.profile?.address || 'Location not available',
+          services: dentist.services ? dentist.services.map(s => s.serviceName) : [],
+          schedule: {
+            weekdays: "9:00A.M - 5:00P.M Monday-Friday",
+            weekend: "Closed"
+          }
+        }));
+        setDentists(mappedDentists);
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch dentists", err);
+        setError("Failed to load dentists");
+        setLoading(false);
       }
-    },
-    {
-      id: 2,
-      name: "Dr. Lorem Ipsum",
-      location: "Lorem Ipsum",
-      services: ["Lorem Ipsum", "Lorem Ipsum", "Lorem Ipsum"],
-      schedule: {
-        weekdays: "10:00A.M - 5:00P.M Monday-Friday",
-        weekend: "1:00P.M - 5:00P.M Saturday - Sunday"
-      }
-    },
-    {
-      id: 3,
-      name: "Dr. Lorem Ipsum",
-      location: "Lorem Ipsum",
-      services: ["Lorem Ipsum", "Lorem Ipsum", "Lorem Ipsum"],
-      schedule: {
-        weekdays: "10:00A.M - 5:00P.M Monday-Friday",
-        weekend: "1:00P.M - 5:00P.M Saturday - Sunday"
-      }
-    },
-    {
-      id: 4,
-      name: "Dr. Lorem Ipsum",
-      location: "Lorem Ipsum",
-      services: ["Lorem Ipsum", "Lorem Ipsum", "Lorem Ipsum"],
-      schedule: {
-        weekdays: "10:00A.M - 5:00P.M Monday-Friday",
-        weekend: "1:00P.M - 5:00P.M Saturday - Sunday"
-      }
-    }
-  ];
+    };
+
+    fetchDentists();
+  }, []);
 
   return (
     <div className={styles.dashboardContainer}>
@@ -90,47 +77,57 @@ const Dashboard = () => {
 
         {/* Dentists Grid */}
         <div className={styles.dentistsGrid}>
-          {dentists.map((dentist) => (
-            <div key={dentist.id} className={styles.dentistCard}>
-              <div className={styles.cardContent}>
-                <div className={styles.dentistHeader}>
-                  <div className={styles.dentistAvatar}>
-                    <Person fontSize="large" />
-                  </div>
-                  <h3>{dentist.name}</h3>
-                </div>
-                
-                <div className={styles.dentistInfo}>
-                  <div className={styles.infoSection}>
-                    <span className={styles.label}>Location</span>
-                    <ul><li>{dentist.location}</li></ul>
+          {loading ? (
+            <p>Loading dentists...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : (
+            dentists.map((dentist) => (
+              <div key={dentist.id} className={styles.dentistCard}>
+                <div className={styles.cardContent}>
+                  <div className={styles.dentistHeader}>
+                    <div className={styles.dentistAvatar}>
+                      <Person fontSize="large" />
+                    </div>
+                    <h3>{dentist.name}</h3>
                   </div>
                   
-                  <div className={styles.infoSection}>
-                    <span className={styles.label}>Services:</span>
-                    <ul>
-                      {dentist.services.map((service, index) => (
-                        <li key={index}>{service}</li>
-                      ))}
-                    </ul>
-                  </div>
+                  <div className={styles.dentistInfo}>
+                    <div className={styles.infoSection}>
+                      <span className={styles.label}>Location</span>
+                      <ul><li>{dentist.location}</li></ul>
+                    </div>
+                    
+                    <div className={styles.infoSection}>
+                      <span className={styles.label}>Services:</span>
+                      <ul>
+                        {dentist.services.length > 0 ? (
+                          dentist.services.map((service, index) => (
+                            <li key={index}>{service}</li>
+                          ))
+                        ) : (
+                          <li>No services listed</li>
+                        )}
+                      </ul>
+                    </div>
 
-                  <div className={styles.infoSection}>
-                    <span className={styles.label}>Available Schedule</span>
-                    <ul>
-                      <li>{dentist.schedule.weekdays}</li>
-                      <li>{dentist.schedule.weekend}</li>
-                    </ul>
+                    <div className={styles.infoSection}>
+                      <span className={styles.label}>Available Schedule</span>
+                      <ul>
+                        <li>{dentist.schedule.weekdays}</li>
+                        <li>{dentist.schedule.weekend}</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className={styles.cardActions}>
-                <div className={styles.placeholderImage}></div>
-                <button className={styles.bookBtn} onClick={() => navigate('/book-appointment')}>Book An Appointment</button>
+                <div className={styles.cardActions}>
+                  <div className={styles.placeholderImage}></div>
+                  <button className={styles.bookBtn} onClick={() => navigate('/book-appointment')}>Book An Appointment</button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </main>
     </div>
