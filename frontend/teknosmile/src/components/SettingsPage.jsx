@@ -20,6 +20,7 @@ const SettingsPage = () => {
       const refreshToken = localStorage.getItem('refreshToken');
       if (refreshToken) {
         await api.post('/auth/logout', { refreshToken });
+        console.log("Logout successful")
       }
     } catch (error) {
       console.error("Logout failed", error);

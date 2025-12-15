@@ -128,8 +128,18 @@
 .calendarGrid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(5, 1fr); /* Fixed 5 rows for demo */
+  /* Removed fixed rows to allow dynamic content */
   height: 100%;
+  overflow-y: auto;
+}
+
+.dayHeader {
+  text-align: center;
+  padding: 1rem;
+  font-weight: 600;
+  color: #666;
+  border-bottom: 1px solid var(--border-color);
+  background-color: #f8f9fa;
 }
 
 .calendarCell {
@@ -137,7 +147,22 @@
   border-bottom: 1px solid var(--border-color);
   padding: 0.5rem;
   position: relative;
-  min-height: 100px;
+  min-height: 120px; /* Increased height */
+  display: flex;
+  flex-direction: column;
+}
+
+.emptyCell {
+  background-color: #f9f9f9;
+}
+
+.appointmentsContainer {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow-y: auto;
+  max-height: 80px;
 }
 
 /* Remove right border for last column */

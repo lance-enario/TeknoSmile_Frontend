@@ -21,17 +21,31 @@ const Dashboard = () => {
     const fetchDentists = async () => {
       try {
         const response = await api.get('/dentists');
-        const mappedDentists = response.data.map(dentist => ({
-          id: dentist.userId,
-          name: `Dr. ${dentist.profile?.firstName || ''} ${dentist.profile?.lastName || ''}`,
-          location: dentist.profile?.address || 'Location not available',
-          services: dentist.services ? dentist.services.map(s => s.serviceName) : [],
-          schedule: {
-            weekdays: "9:00A.M - 5:00P.M Monday-Friday",
-            weekend: "Closed"
-          }
-        }));
-        setDentists(mappedDentists);
+        
+        const dentistsWithServices = await Promise.all(
+          response.data.map(async (dentist) => {
+            let services = [];
+            try {
+              const servicesResponse = await api.get(`/services/dentist/${dentist.userId}`);
+              services = servicesResponse.data.map(s => s.serviceName);
+            } catch (serviceErr) {
+              console.error(`Failed to fetch services for dentist ${dentist.userId}`, serviceErr);
+            }
+
+            return {
+              id: dentist.userId,
+              name: `Dr. ${dentist.profile?.firstName || ''} ${dentist.profile?.lastName || ''}`,
+              location: dentist.profile?.address || 'Location not available',
+              services: services,
+              schedule: {
+                weekdays: "9:00A.M - 5:00P.M Monday-Friday",
+                weekend: "Closed"
+              }
+            };
+          })
+        );
+
+        setDentists(dentistsWithServices);
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch dentists", err);
