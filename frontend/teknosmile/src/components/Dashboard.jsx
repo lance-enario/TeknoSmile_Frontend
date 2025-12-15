@@ -137,7 +137,12 @@ const Dashboard = () => {
 
                 <div className={styles.cardActions}>
                   <div className={styles.placeholderImage}></div>
-                  <button className={styles.bookBtn} onClick={() => navigate('/book-appointment')}>Book An Appointment</button>
+                  <button 
+                    className={styles.bookBtn} 
+                    onClick={() => navigate('/book-appointment', { state: { dentistId: dentist.id } })}
+                  >
+                    Book An Appointment
+                  </button>
                 </div>
               </div>
             ))

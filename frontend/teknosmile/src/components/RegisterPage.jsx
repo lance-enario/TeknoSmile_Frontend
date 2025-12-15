@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './RegisterPage.module.css'; // Changed import
+import styles from './RegisterPage.module.css';
 import {
   Visibility,
   VisibilityOff,
@@ -48,11 +48,26 @@ export default function RegisterPage() {
       
       const { accessToken, refreshToken, userId, role: userRole } = response.data;
       
+      // Store Session Data
       localStorage.setItem('token', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('user', JSON.stringify({ userId, role: userRole }));
       
-      navigate('/dashboard');
+      // --- NAVIGATION LOGIC ---
+      if (userRole === 'DENTIST' || role === 'DENTIST') {
+        // If Doctor, start the setup flow
+        // We pass the data we already have so Step 1 is pre-filled
+        navigate('/doctor-post-register', { 
+          state: { 
+            userId,
+            prefilledData: { firstName, lastName, email, role } 
+          } 
+        });
+      } else {
+        // If Patient, go straight to dashboard
+        navigate('/dashboard');
+      }
+
     } catch (error) {
       console.error("Registration failed", error);
       alert("Registration failed. Please try again.");
@@ -63,17 +78,14 @@ export default function RegisterPage() {
     setUserType(userType === 'patient' ? 'doctor' : 'patient');
   };
 
-  // Common sx styles for TextFields to keep code clean
   const textFieldSx = {
     marginBottom: '1rem',
     '& .MuiOutlinedInput-root': {
-      backgroundColor: '#EBF8FC', // var(--bg-input)
+      backgroundColor: '#EBF8FC',
       borderRadius: '8px',
       '& fieldset': { border: 'none' },
       '&:hover fieldset': { border: 'none' },
-      '&.Mui-focused fieldset': { 
-        border: '2px solid #CFECF7'
-      },
+      '&.Mui-focused fieldset': { border: '2px solid #CFECF7' },
     },
     '& input': { 
       padding: '14px 16px', 
@@ -108,91 +120,25 @@ export default function RegisterPage() {
           <Divider sx={{ color: '#E5E7EB', fontSize: '0.75rem', my: 1 }}>or</Divider>
 
           <form onSubmit={handleSignup} className={styles.form}>
-            
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <TextField
-                fullWidth
-                placeholder="First Name"
-                variant="outlined"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                sx={textFieldSx}
-              />
-              <TextField
-                fullWidth
-                placeholder="Last Name"
-                variant="outlined"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                sx={textFieldSx}
-              />
+              <TextField fullWidth placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} sx={textFieldSx} />
+              <TextField fullWidth placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} sx={textFieldSx} />
             </div>
-
-            {/* Email */}
+            <TextField fullWidth placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} sx={textFieldSx} />
             <TextField
-              fullWidth
-              placeholder="Email"
-              variant="outlined"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              sx={textFieldSx}
+              fullWidth placeholder="Password" type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} sx={textFieldSx}
+              InputProps={{ endAdornment: (<InputAdornment position="end"><IconButton onClick={() => setShowPassword(!showPassword)} edge="end" sx={{ color: '#6B7280' }}>{showPassword ? <VisibilityOff /> : <Visibility />}</IconButton></InputAdornment>)}}
             />
-
-            {/* Password */}
             <TextField
-              fullWidth
-              placeholder="Password"
-              variant="outlined"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              sx={textFieldSx}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                      sx={{ color: '#6B7280' }}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-
-            {/* Confirm Password */}
-            <TextField
-              fullWidth
-              placeholder="Confirm password"
-              variant="outlined"
-              type={showConfirmPassword ? 'text' : 'password'}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              sx={{ ...textFieldSx, marginBottom: '0.5rem' }} // Override margin for the last input
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      edge="end"
-                      sx={{ color: '#6B7280' }}
-                    >
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+              fullWidth placeholder="Confirm password" type={showConfirmPassword ? 'text' : 'password'} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} sx={{ ...textFieldSx, marginBottom: '0.5rem' }}
+              InputProps={{ endAdornment: (<InputAdornment position="end"><IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end" sx={{ color: '#6B7280' }}>{showConfirmPassword ? <VisibilityOff /> : <Visibility />}</IconButton></InputAdornment>)}}
             />
 
             <div className={styles.doctorLink} onClick={toggleUserType}>
               {userType === 'patient' ? 'Are you a doctor? Click Here!' : 'Are you a patient? Click Here!'}
             </div>
 
-            <button type="submit" className={`${styles.btn} ${styles.btnRegister}`}>
-              Register
-            </button>
+            <button type="submit" className={`${styles.btn} ${styles.btnRegister}`}>Register</button>
           </form>
         </div>
       </div>

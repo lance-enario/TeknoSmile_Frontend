@@ -210,6 +210,28 @@
   border: 2px dashed #e0e0e0;
 }
 
+.monthLabel {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.navButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  transition: background-color 0.2s;
+}
+
+.navButton:hover {
+  background-color: #f0f0f0;
+  color: var(--primary-blue);
+}
+
 .actionArea {
   display: flex;
   justify-content: flex-end;
@@ -252,4 +274,8 @@
   .bookingPageWrapper {
     flex-direction: column;
   }
+
+  
+
+
 }
