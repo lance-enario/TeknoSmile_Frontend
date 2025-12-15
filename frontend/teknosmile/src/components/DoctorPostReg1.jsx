@@ -8,7 +8,6 @@ export default function DoctorPostRegisterPage() {
   const location = useLocation();
   const dateInputRef = useRef(null);
 
-  // Retrieve data passed from Register Page
   const { userId, prefilledData } = location.state || {};
 
   const [formData, setFormData] = useState({
@@ -28,17 +27,15 @@ export default function DoctorPostRegisterPage() {
 
   const handleNext = (e) => {
     e.preventDefault();
-    // Validate basic fields
     if (!formData.name || !formData.surname) {
       alert("Please complete your profile details.");
       return;
     }
 
-    // Go to Step 2, carrying over all data
     navigate('/doctor-clinic-info', {
       state: {
         userId,
-        step1Data: formData // Pass this page's data forward
+        step1Data: formData 
       }
     });
   };

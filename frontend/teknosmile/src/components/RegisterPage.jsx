@@ -53,10 +53,7 @@ export default function RegisterPage() {
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('user', JSON.stringify({ userId, role: userRole }));
       
-      // --- NAVIGATION LOGIC ---
       if (userRole === 'DENTIST' || role === 'DENTIST') {
-        // If Doctor, start the setup flow
-        // We pass the data we already have so Step 1 is pre-filled
         navigate('/doctor-post-register', { 
           state: { 
             userId,
@@ -64,7 +61,6 @@ export default function RegisterPage() {
           } 
         });
       } else {
-        // If Patient, go straight to dashboard
         navigate('/dashboard');
       }
 

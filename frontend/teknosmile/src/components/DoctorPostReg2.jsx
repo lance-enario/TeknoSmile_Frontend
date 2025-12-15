@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FilterList, Close } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './DoctorPostReg2.module.css';
-import api from '../api/axios'; // Ensure API is imported
+import api from '../api/axios';
 
 export default function DoctorClinicInfoPage() {
   const navigate = useNavigate();
@@ -14,17 +14,15 @@ export default function DoctorClinicInfoPage() {
     clinicAddress: ''
   });
 
-  // Stores the full service objects { serviceId, serviceName, ... }
   const [availableServices, setAvailableServices] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]); 
   const [loadingServices, setLoadingServices] = useState(true);
   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
 
-  // --- 1. FETCH REAL SERVICES ON MOUNT ---
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await api.get('/api/services'); //
+        const response = await api.get('/api/services');
         setAvailableServices(response.data);
         setLoadingServices(false);
       } catch (error) {
@@ -42,13 +40,13 @@ export default function DoctorClinicInfoPage() {
 
   const toggleService = (service) => {
     if (selectedServices.find(s => s.serviceId === service.serviceId)) {
-      // Remove if already selected
+
       setSelectedServices(prev => prev.filter(s => s.serviceId !== service.serviceId));
     } else {
-      // Add if not selected
+ 
       setSelectedServices(prev => [...prev, service]);
     }
-    setIsServiceDropdownOpen(false); // Close dropdown after selection (optional)
+    setIsServiceDropdownOpen(false);
   };
 
   const removeService = (serviceId) => {
@@ -63,14 +61,13 @@ export default function DoctorClinicInfoPage() {
       return;
     }
 
-    // Pass everything to the final step
     navigate('/doctor-availability', {
       state: {
         userId,
         step1Data, 
         step2Data: { 
           ...formData, 
-          // We pass the entire array of selected service objects
+         
           selectedServices 
         }
       }
@@ -100,7 +97,6 @@ export default function DoctorClinicInfoPage() {
           <div className={styles.servicesContainer}>
             <label className={styles.label}>Select Services</label>
             
-            {/* Custom Dropdown Trigger */}
             <button 
               type="button" 
               className={styles.selectServicesBtn}
@@ -110,7 +106,6 @@ export default function DoctorClinicInfoPage() {
               {loadingServices ? "Loading Services..." : "Select Services from List"}
             </button>
 
-            {/* Dropdown List */}
             {isServiceDropdownOpen && (
               <div style={{ 
                 border: '1px solid #ccc', 
@@ -137,7 +132,6 @@ export default function DoctorClinicInfoPage() {
               </div>
             )}
 
-            {/* Selected Chips */}
             <div className={styles.chipsContainer}>
               {selectedServices.map((service) => (
                 <div key={service.serviceId} className={styles.serviceChip}>

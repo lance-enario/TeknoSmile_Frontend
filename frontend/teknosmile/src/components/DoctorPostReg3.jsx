@@ -35,16 +35,14 @@ export default function DoctorAvailabilityPage() {
     }
 
     try {
-      // --- 1. CREATE DENTIST PROFILE ---
-      // Matches payload from
       const dentistPayload = {
         userId: userId,
         email: step1Data.email,
-        password: "defaultPassword123", // Or handled by backend if not needed here
+        password: "defaultPassword123",
         enabled: true,
         role: "DENTIST",
         profile: {
-          userProfileId: 0, // 0 for new
+          userProfileId: 0,
           firstName: step1Data.name,
           lastName: step1Data.surname,
           middleName: "", 
@@ -56,21 +54,15 @@ export default function DoctorAvailabilityPage() {
              type: "PHONE",
              value: step1Data.number || "0000000000"
         },
-        serviceCount: 0 // Backend likely calculates this
+        serviceCount: 0
       };
       
       console.log("Creating Dentist Profile...");
       const dentistResponse = await api.post('/api/dentists', dentistPayload); 
       
-      // We need the ACTUAL dentistId returned by the backend for the next steps
-      // Sometimes userId and dentistId are different.
-      // Based on Swagger, it likely returns the created object.
       const dentistId = dentistResponse.data.dentistId || userId; 
       console.log("Dentist Created with ID:", dentistId);
 
-      // --- 2. ASSIGN SERVICES ---
-      // We must loop through the selected services and assign them one by one.
-      // Matches endpoint: /api/services/{serviceId}/dentists/{dentistId}
       if (step2Data.selectedServices && step2Data.selectedServices.length > 0) {
         console.log("Assigning Services...");
         const servicePromises = step2Data.selectedServices.map(service => 
@@ -79,8 +71,6 @@ export default function DoctorAvailabilityPage() {
         await Promise.all(servicePromises);
       }
 
-      // --- 3. CREATE AVAILABILITY ---
-      // Matches payload from
       console.log("Setting Availability...");
       const availabilityPromises = Object.entries(schedule)
         .filter(([day, times]) => times.enabled && times.start && times.end)
@@ -90,7 +80,7 @@ export default function DoctorAvailabilityPage() {
 
           const payload = {
             availabilityId: 0,
-            dayOfWeek: day.toUpperCase(), // "MONDAY"
+            dayOfWeek: day.toUpperCase(),
             startTime: { 
                 hour: parseInt(startHour), 
                 minute: parseInt(startMinute), 
@@ -110,7 +100,6 @@ export default function DoctorAvailabilityPage() {
 
       await Promise.all(availabilityPromises);
 
-      // --- 4. SUCCESS ---
       alert("Doctor Registration Complete!");
       navigate('/dashboard');
 
