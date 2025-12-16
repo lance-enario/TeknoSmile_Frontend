@@ -49,28 +49,28 @@ export default function DoctorAvailabilityPage() {
       const dentistPayload = {
         userId: userId,
         email: step1Data.email,
-        password: "defaultPassword123", 
+        password: step1Data.password,
         enabled: true,
         role: "DENTIST",
         profile: {
-          userProfileId: 0,
+          userProfileId: userId,
           firstName: step1Data.name,
-          lastName: step1Data.surname,
           middleName: "", 
+          lastName: step1Data.surname,
           address: `${step1Data.city}, ${step1Data.barangay}`,
           birthDate: step1Data.birthdate
         },
-        contact: {
-             contactID: 0,
-             type: "PHONE",
-             value: step1Data.number || "0000000000"
+        contact: step1Data?.contact ?? {
+          contactID: contactId,
+          type: "PHONE",
+          value: step1Data.number || "0000000000"
         },
-        serviceCount: 0 
+        serviceCount: step2Data.selectedServices.length
       };
       
       console.log("Creating Dentist Profile...");
-      // Pass authHeader here
-      const dentistResponse = await api.post('/dentists', dentistPayload, authHeader); 
+      const dentistResponse = await api.post('/dentists', dentistPayload); 
+      console.log("/dentists/ called")
       
       const dentistId = dentistResponse.data.dentistId || userId; 
       console.log("Dentist Created with ID:", dentistId);
@@ -79,8 +79,7 @@ export default function DoctorAvailabilityPage() {
       if (step2Data.selectedServices && step2Data.selectedServices.length > 0) {
         console.log("Assigning Services...");
         const servicePromises = step2Data.selectedServices.map(service => 
-          // Pass authHeader here too
-          api.post(`/services/${service.serviceId}/dentists/${dentistId}`, {}, authHeader)
+          api.post(`/services/${service.serviceId}/dentists/${dentistId}`)
         );
         await Promise.all(servicePromises);
       }
@@ -110,8 +109,7 @@ export default function DoctorAvailabilityPage() {
             }
           };
 
-          // Pass authHeader here too
-          return api.post(`/dentists/${dentistId}/availability`, payload, authHeader);
+          return api.post(`/dentists/${dentistId}/availability`, payload);
         });
 
       await Promise.all(availabilityPromises);

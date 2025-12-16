@@ -14,6 +14,7 @@ export default function DoctorPostRegisterPage() {
     name: prefilledData?.firstName || '',
     surname: prefilledData?.lastName || '',
     email: prefilledData?.email || '',
+    password: prefilledData?.password || '',
     birthdate: '',
     city: '',
     barangay: '',

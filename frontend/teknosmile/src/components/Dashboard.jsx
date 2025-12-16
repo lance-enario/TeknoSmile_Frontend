@@ -13,7 +13,9 @@ import api from '../api/axios';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [dentists, setDentists] = useState([]);
+  const [allDentists, setAllDentists] = useState([]);
+  const [filteredDentists, setFilteredDentists] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -45,7 +47,8 @@ const Dashboard = () => {
           })
         );
 
-        setDentists(dentistsWithServices);
+        setAllDentists(dentistsWithServices);
+        setFilteredDentists(dentistsWithServices);
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch dentists", err);
@@ -56,6 +59,42 @@ const Dashboard = () => {
 
     fetchDentists();
   }, []);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      if (!searchTerm.trim()) {
+        setFilteredDentists(allDentists);
+        return;
+      }
+
+      try {
+        let matchingServiceNames = [];
+        try {
+          const response = await api.get(`/services/search?keyword=${searchTerm}`);
+          matchingServiceNames = response.data.map(s => s.serviceName.toLowerCase());
+        } catch (err) {
+          console.error("Service search failed", err);
+        }
+
+        const lowerTerm = searchTerm.toLowerCase();
+        const filtered = allDentists.filter(dentist => {
+          const nameMatch = dentist.name.toLowerCase().includes(lowerTerm);
+          const locationMatch = dentist.location.toLowerCase().includes(lowerTerm);
+          const serviceMatch = dentist.services.some(s => 
+            matchingServiceNames.includes(s.toLowerCase()) || s.toLowerCase().includes(lowerTerm)
+          );
+          
+          return nameMatch || locationMatch || serviceMatch;
+        });
+
+        setFilteredDentists(filtered);
+      } catch (err) {
+        console.error("Search filtering failed", err);
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, allDentists]);
 
   return (
     <div className={styles.dashboardContainer}>
@@ -71,6 +110,8 @@ const Dashboard = () => {
               type="text" 
               placeholder="Search for Services, Clinics name, or your Doctor's name..." 
               className={styles.searchInput}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <div className={styles.locationContainer}>
@@ -96,7 +137,7 @@ const Dashboard = () => {
           ) : error ? (
             <p>{error}</p>
           ) : (
-            dentists.map((dentist) => (
+            filteredDentists.map((dentist) => (
               <div key={dentist.id} className={styles.dentistCard}>
                 <div className={styles.cardContent}>
                   <div className={styles.dentistHeader}>

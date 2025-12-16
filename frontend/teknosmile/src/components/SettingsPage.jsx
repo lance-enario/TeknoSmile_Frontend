@@ -7,13 +7,52 @@ import api from '../api/axios';
 const SettingsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState(location.state?.tab || 'account');;
+  const [activeTab, setActiveTab] = useState(location.state?.tab || 'account');
+  
+  const [userData, setUserData] = useState({
+    firstName: '',
+    lastName: '',
+    address: '',
+    city: '',
+    barangay: '',
+    number: ''
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (location.state?.tab) {
       setActiveTab(location.state.tab);
     }
   }, [location.state]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userStr = localStorage.getItem('user');
+        if (!userStr) return;
+        const user = JSON.parse(userStr);
+        
+        const response = await api.get(`/patients/${user.userId}`);
+        const profile = response.data.profile || {};
+            
+        setUserData({
+          firstName: profile.firstName || '',
+          lastName: profile.lastName || '',
+          address: profile.address || '',
+          city: profile.address || '', 
+          barangay: '',
+          number: ''
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch user data", error);
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -29,6 +68,40 @@ const SettingsPage = () => {
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
       navigate('/login');
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      const userStr = localStorage.getItem('user');
+      if (!userStr) return;
+      const user = JSON.parse(userStr);
+
+      // Construct the address from components if we were using them, 
+      // but for now we are just using the 'address' field directly or 'city' as the main address input.
+      // Let's assume the user edits the 'address' field directly if we simplify the UI,
+      // or we map 'city' back to address.
+      const addressToSave = userData.address; 
+
+      await api.put(`/patients/${user.userId}/profile`, {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        address: addressToSave
+      });
+      
+      setIsEditing(false);
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Failed to update profile", error);
+      alert("Failed to update profile");
     }
   };
 
@@ -64,7 +137,35 @@ const SettingsPage = () => {
           {activeTab === 'account' ? (
             <>
               <section className={styles.section}>
-                <h2 className={styles.sectionTitle}>Profile</h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                  <h2 className={styles.sectionTitle} style={{ marginBottom: 0 }}>Profile</h2>
+                  {!isEditing ? (
+                    <button 
+                      className={styles.confirmBtn} 
+                      onClick={() => setIsEditing(true)}
+                      style={{ padding: '0.5rem 1.5rem', fontSize: '0.9rem' }}
+                    >
+                      Edit Profile
+                    </button>
+                  ) : (
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                      <button 
+                        className={styles.confirmBtn} 
+                        onClick={() => setIsEditing(false)}
+                        style={{ padding: '0.5rem 1.5rem', fontSize: '0.9rem', backgroundColor: '#f5f5f5' }}
+                      >
+                        Cancel
+                      </button>
+                      <button 
+                        className={styles.confirmBtn} 
+                        onClick={handleSaveProfile}
+                        style={{ padding: '0.5rem 1.5rem', fontSize: '0.9rem', backgroundColor: '#007bff', color: 'white' }}
+                      >
+                        Save Changes
+                      </button>
+                    </div>
+                  )}
+                </div>
                 
                 <div className={styles.profileGrid}>
                   <div className={styles.photoArea}>
@@ -75,11 +176,25 @@ const SettingsPage = () => {
                   <div className={styles.profileInputs}>
                     <div className={styles.inputGroup}>
                       <label className={styles.label}>Name</label>
-                      <input type="text" className={styles.input} placeholder="" />
+                      <input 
+                        type="text" 
+                        className={styles.input} 
+                        name="firstName"
+                        value={userData.firstName}
+                        onChange={handleInputChange}
+                        readOnly={!isEditing}
+                      />
                     </div>
                     <div className={styles.inputGroup}>
                       <label className={styles.label}>Surname</label>
-                      <input type="text" className={styles.input} placeholder="" />
+                      <input 
+                        type="text" 
+                        className={styles.input} 
+                        name="lastName"
+                        value={userData.lastName}
+                        onChange={handleInputChange}
+                        readOnly={!isEditing}
+                      />
                     </div>
                   </div>
                 </div>
@@ -91,18 +206,22 @@ const SettingsPage = () => {
                 <h2 className={styles.sectionTitle}>Address</h2>
                 
                 <div className={styles.addressGrid}>
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>City</label>
-                    <input type="text" className={styles.input} placeholder="" />
-                  </div>
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Barangay</label>
-                    <input type="text" className={styles.input} placeholder="" />
-                  </div>
                   <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
-                    <label className={styles.label}>Number</label>
-                    <input type="text" className={styles.input} placeholder="" />
+                    <label className={styles.label}>Full Address</label>
+                    <input 
+                      type="text" 
+                      className={styles.input} 
+                      name="address"
+                      value={userData.address}
+                      onChange={handleInputChange}
+                      readOnly={!isEditing}
+                      placeholder="City, Barangay, House No."
+                    />
                   </div>
+                  {/* 
+                    Simplified to single address field to match backend model.
+                    If you want separate fields, we need to parse/stringify the address string.
+                  */}
                 </div>
               </section>
             </>
