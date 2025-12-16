@@ -28,17 +28,28 @@ export default function DoctorAvailabilityPage() {
   const handleFinalSubmit = async (e) => {
     e.preventDefault();
 
-    if (!userId) {
-      alert("Error: Missing User ID. Please restart registration.");
-      navigate('/register');
+    // 1. GET THE TOKEN
+    const token = localStorage.getItem('token'); 
+
+    if (!userId || !token) {
+      alert("Session missing. Please log in again.");
+      navigate('/login');
       return;
     }
 
+    // 2. CONFIG FOR HEADERS (The Fix for 403)
+    const authHeader = {
+      headers: { 
+        'Authorization': `Bearer ${token}` 
+      }
+    };
+
     try {
+      // --- A. CREATE DENTIST PROFILE ---
       const dentistPayload = {
         userId: userId,
         email: step1Data.email,
-        password: "defaultPassword123",
+        password: "defaultPassword123", 
         enabled: true,
         role: "DENTIST",
         profile: {
@@ -54,23 +65,27 @@ export default function DoctorAvailabilityPage() {
              type: "PHONE",
              value: step1Data.number || "0000000000"
         },
-        serviceCount: 0
+        serviceCount: 0 
       };
       
       console.log("Creating Dentist Profile...");
-      const dentistResponse = await api.post('/api/dentists', dentistPayload); 
+      // Pass authHeader here
+      const dentistResponse = await api.post('/dentists', dentistPayload, authHeader); 
       
       const dentistId = dentistResponse.data.dentistId || userId; 
       console.log("Dentist Created with ID:", dentistId);
 
+      // --- B. ASSIGN SERVICES ---
       if (step2Data.selectedServices && step2Data.selectedServices.length > 0) {
         console.log("Assigning Services...");
         const servicePromises = step2Data.selectedServices.map(service => 
-          api.post(`/api/services/${service.serviceId}/dentists/${dentistId}`)
+          // Pass authHeader here too
+          api.post(`/services/${service.serviceId}/dentists/${dentistId}`, {}, authHeader)
         );
         await Promise.all(servicePromises);
       }
 
+      // --- C. CREATE AVAILABILITY ---
       console.log("Setting Availability...");
       const availabilityPromises = Object.entries(schedule)
         .filter(([day, times]) => times.enabled && times.start && times.end)
@@ -95,11 +110,13 @@ export default function DoctorAvailabilityPage() {
             }
           };
 
-          return api.post(`/api/dentists/${dentistId}/availability`, payload);
+          // Pass authHeader here too
+          return api.post(`/dentists/${dentistId}/availability`, payload, authHeader);
         });
 
       await Promise.all(availabilityPromises);
 
+      // --- D. SUCCESS ---
       alert("Doctor Registration Complete!");
       navigate('/dashboard');
 

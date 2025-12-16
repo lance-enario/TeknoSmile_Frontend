@@ -22,7 +22,7 @@ export default function DoctorClinicInfoPage() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await api.get('/api/services');
+        const response = await api.get('/services');
         setAvailableServices(response.data);
         setLoadingServices(false);
       } catch (error) {
